@@ -1,0 +1,1521 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Salman - Portfolio</title>
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect x='2' y='2' width='28' height='28' rx='8' fill='%23FEF3C7' stroke='%2318181B' stroke-width='2'/><text x='50%' y='55%' dominant-baseline='middle' text-anchor='middle' font-family='Plus Jakarta Sans, sans-serif' font-weight='800' font-size='19' fill='%2318181B'>S</text></svg>"
+    />
+    <!-- Google Fonts: Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Tailwind Configuration -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Plus Jakarta Sans", "sans-serif"],
+            },
+            colors: {
+              brand: {
+                bg: "#F9F9F4" /* Warm Calm Cream */,
+                card: "#FFFFFF" /* Pure White Card */,
+                text: "#18181B" /* Crisp Ink Black */,
+                sub: "#52525B" /* Soft Charcoal Gray */,
+                green: "#22C55E" /* Vibrant Kelly Green */,
+                greenHover: "#16A34A",
+                greenSoft: "#DCFCE7" /* Pastel Mint Tag */,
+                yellowSoft: "#FEF3C7" /* Pastel Warm Yellow Tag */,
+                border: "#18181B" /* Clean Uniform Black Outline */,
+              },
+            },
+          },
+        },
+      };
+    </script>
+
+    <style>
+      /* Latar Belakang Super Ringan Anti-Lag untuk HP Android & iOS */
+      body {
+        background-color: #f9f9f4;
+        background-image: radial-gradient(#d4d4d8 1px, transparent 1px);
+        background-size: 28px 28px;
+        color: #18181b;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      /* Optimasi Render Section Bawah agar Scroll Navigasi Tidak Patah-Patah */
+      .perf-section {
+        content-visibility: auto;
+        contain-intrinsic-size: 1px 650px;
+      }
+
+      /* Gaya Kotak dengan Tepi Hitam Rata & Ringan di GPU */
+      .calm-card {
+        background: #ffffff;
+        border: 2px solid #18181b;
+        box-shadow: 0 4px 12px -4px rgba(24, 24, 27, 0.07);
+      }
+
+      /* Tombol & Pill dengan Transisi Spesifik (Tanpa transition-all yang berat) */
+      .cartoon-btn-green {
+        background-color: #22c55e;
+        color: #ffffff;
+        border: 2px solid #18181b;
+        transition:
+          transform 0.15s ease,
+          background-color 0.15s ease;
+      }
+      @media (hover: hover) {
+        .cartoon-btn-green:hover {
+          background-color: #16a34a;
+          transform: translateY(-2px);
+        }
+      }
+
+      .cartoon-btn-white {
+        background-color: #ffffff;
+        color: #18181b;
+        border: 2px solid #18181b;
+        transition:
+          transform 0.15s ease,
+          background-color 0.15s ease;
+      }
+      @media (hover: hover) {
+        .cartoon-btn-white:hover {
+          background-color: #fef3c7;
+          transform: translateY(-2px);
+        }
+      }
+
+      /* Animasi Gradasi Nama */
+      @keyframes nameGradientFlow {
+        0% {
+          background-position: 0% 50%;
+        }
+        50% {
+          background-position: 100% 50%;
+        }
+        100% {
+          background-position: 0% 50%;
+        }
+      }
+
+      .animated-name-gradient {
+        background: linear-gradient(90deg, #18181b 0%, #29f5eb 40%, #f5f109 70%);
+        background-size: 250% auto;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: nameGradientFlow 8s linear infinite;
+      }
+
+      /* Custom Scrollbar */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #f9f9f4;
+        border-left: 2px solid #18181b;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #22c55e;
+        border: 2px solid #18181b;
+        border-radius: 6px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #16a34a;
+      }
+
+      /* Container Foto Profil */
+      .person-mask-container {
+        position: relative;
+        display: inline-block;
+        width: 100%;
+        max-width: 380px;
+      }
+
+      .person-Graphic-backdrop {
+        position: absolute;
+        inset: -10px;
+        z-index: 1;
+        pointer-events: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .person-image {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: auto;
+        mask-image: linear-gradient(to bottom, black 82%, transparent 100%);
+        -webkit-mask-image: linear-gradient(to bottom, black 82%, transparent 100%);
+      }
+
+      /* Animasi Kartu Interaktif Khusus Perangkat Kursor (Laptop/PC) agar HP Tidak Lag Saat Scroll */
+      @media (hover: hover) {
+        .interactive-card {
+          transition: transform 0.2s ease;
+        }
+        .interactive-card:hover {
+          transform: translateY(-4px);
+        }
+      }
+
+      /* Logo Software Acak Rapi (Tanpa drop-shadow berat agar Android mulus) */
+      @media (hover: hover) {
+        .static-scattered-logo {
+          transition: transform 0.2s ease;
+        }
+        .static-scattered-logo:hover {
+          transform: scale(1.22) rotate(0deg) !important;
+          z-index: 20;
+        }
+      }
+    </style>
+  </head>
+
+  <body class="text-brand-text font-sans antialiased selection:bg-brand-green selection:text-white">
+    <!-- ================= NAVBAR (TANPA BLUR BERAT AGAR SCROLL MULUS DI ANDROID) ================= -->
+    <header class="fixed top-0 left-0 right-0 z-40 bg-[#F9F9F4] border-b-2 border-brand-border px-4 sm:px-8 py-3.5">
+      <nav class="max-w-6xl mx-auto flex items-center justify-between">
+        <!-- Brand Logo ala SlotCal -->
+        <a href="#about" class="flex items-center gap-2.5 group">
+          <div class="w-9 h-9 rounded-xl bg-brand-yellowSoft border-2 border-brand-border flex items-center justify-center text-brand-text font-extrabold text-base group-hover:bg-brand-green group-hover:text-white transition-colors">
+            S
+          </div>
+          <span class="font-extrabold text-base sm:text-lg tracking-tight text-brand-text">Salman</span>
+        </a>
+
+        <!-- Menu Desktop -->
+        <div class="hidden md:flex items-center gap-6 lg:gap-7">
+          <a href="#about" class="text-sm font-bold text-brand-sub hover:text-brand-green transition-colors">About</a>
+          <a href="#skills" class="text-sm font-bold text-brand-sub hover:text-brand-green transition-colors">Skills</a>
+          <a href="#experience" class="text-sm font-bold text-brand-sub hover:text-brand-green transition-colors">Experience</a>
+          <a href="#project" class="text-sm font-bold text-brand-sub hover:text-brand-green transition-colors">Project</a>
+          <a href="#publication" class="text-sm font-bold text-brand-sub hover:text-brand-green transition-colors">Publication</a>
+          <a href="#achievement" class="text-sm font-bold text-brand-sub hover:text-brand-green transition-colors">Achievement</a>
+        </div>
+
+        <!-- Tombol Garis 3 (Hamburger Button) Khusus HP -->
+        <button
+          id="mobile-menu-btn"
+          type="button"
+          aria-label="Buka Menu Navigasi"
+          class="md:hidden p-2 rounded-xl bg-white hover:bg-brand-yellowSoft text-brand-text border-2 border-brand-border transition-colors focus:outline-none"
+        >
+          <svg id="hamburger-icon" class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+          <svg id="close-menu-icon" class="w-6 h-6 hidden" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </nav>
+
+      <!-- Dropdown Menu Pilihan untuk HP -->
+      <div id="mobile-menu-dropdown" class="hidden md:hidden mt-3 pt-3 pb-2 border-t-2 border-brand-border flex-col space-y-1.5 bg-[#F9F9F4]">
+        <a href="#about" class="mobile-nav-link block px-3 py-2.5 rounded-xl text-sm font-extrabold text-brand-text hover:bg-brand-green hover:text-white border-2 border-transparent hover:border-brand-border transition-colors">About</a>
+        <a href="#skills" class="mobile-nav-link block px-3 py-2.5 rounded-xl text-sm font-extrabold text-brand-text hover:bg-brand-green hover:text-white border-2 border-transparent hover:border-brand-border transition-colors">Skills</a>
+        <a href="#experience" class="mobile-nav-link block px-3 py-2.5 rounded-xl text-sm font-extrabold text-brand-text hover:bg-brand-green hover:text-white border-2 border-transparent hover:border-brand-border transition-colors">Experience</a>
+        <a href="#project" class="mobile-nav-link block px-3 py-2.5 rounded-xl text-sm font-extrabold text-brand-text hover:bg-brand-green hover:text-white border-2 border-transparent hover:border-brand-border transition-colors">Project</a>
+        <a href="#publication" class="mobile-nav-link block px-3 py-2.5 rounded-xl text-sm font-extrabold text-brand-text hover:bg-brand-green hover:text-white border-2 border-transparent hover:border-brand-border transition-colors">Publication</a>
+        <a href="#achievement" class="mobile-nav-link block px-3 py-2.5 rounded-xl text-sm font-extrabold text-brand-text hover:bg-brand-green hover:text-white border-2 border-transparent hover:border-brand-border transition-colors">Achievement</a>
+      </div>
+    </header>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="max-w-5xl mx-auto px-4 sm:px-8 pt-28 sm:pt-32 space-y-24">
+      <!-- 1. ABOUT / HERO SECTION -->
+      <section id="about" class="scroll-mt-24 relative">
+        <div class="flex flex-col-reverse lg:flex-row items-center justify-between gap-8">
+          <!-- Kiri: Teks Profil dari CV + Doodle Smiley Lucu -->
+          <div class="flex-1 space-y-4 text-center lg:text-left relative">
+            <div class="inline-flex items-center gap-3">
+              <span class="px-3.5 py-1.5 rounded-full bg-brand-yellowSoft border-2 border-brand-border font-extrabold text-xs sm:text-sm text-brand-text">
+                👋 Hallo, It's Me
+              </span>
+              <svg class="w-10 h-10 hidden sm:block -rotate-6" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect x="6" y="8" width="34" height="32" rx="7" fill="#FFFFFF" stroke="#18181B" stroke-width="2.2" />
+                <path d="M14 8V4M32 8V4" stroke="#18181B" stroke-width="2.2" stroke-linecap="round" />
+                <circle cx="18" cy="22" r="2" fill="#18181B" />
+                <circle cx="28" cy="22" r="2" fill="#18181B" />
+                <path d="M18 28C20 31 26 31 28 28" stroke="#18181B" stroke-width="2.2" stroke-linecap="round" />
+              </svg>
+            </div>
+
+            <h1 class="animated-name-gradient font-extrabold text-3xl sm:text-4xl lg:text-5xl tracking-tight uppercase">
+              SALMAN AL KAFI
+            </h1>
+
+            <!-- Role Typewriter -->
+            <div class="text-base sm:text-xl font-extrabold text-brand-text flex items-center justify-center lg:justify-start gap-2 min-h-[34px]">
+              <span>I'm a</span>
+              <span id="typewriter" class="px-3 py-0.5 rounded-full bg-brand-greenSoft border-2 border-brand-border text-emerald-900"></span>
+            </div>
+
+            <p class="text-brand-sub text-sm sm:text-base leading-relaxed max-w-xl mx-auto lg:mx-0 pt-1 font-medium">
+              FreshGraduate in Informatics Engineering from the <strong class="text-brand-text underline decoration-brand-green decoration-2">Islamic University of Lamongan</strong>, with experience in Game Development (Roblox Studio & Unity), Web Development (Full Stack), IT Support, Machine Learning Projects, the
+              Internet of Things (IoT), Data Analysis, and AI Engineer, as well as the management and validation of statistical data at Statistics Indonesia (BPS).
+            </p>
+
+            <!-- Ikon Sosial Media dengan Garis Tepi Rata -->
+            <div class="flex items-center justify-center lg:justify-start gap-3 pt-2">
+              <!-- LinkedIn -->
+              <a
+                href="https://www.linkedin.com/in/salmanalkafi"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                class="w-10 h-10 rounded-full bg-[#0A66C2] text-white border-2 border-brand-border hover:-translate-y-0.5 transition-transform flex items-center justify-center"
+              >
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path
+                    d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.68-1.69 0-1.69.76-1.69 1.69 0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"
+                  />
+                </svg>
+              </a>
+
+              <!-- GitHub -->
+              <a
+                href="https://github.com/SalmanAlKafii"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                class="w-10 h-10 rounded-full bg-white hover:bg-brand-yellowSoft text-brand-text border-2 border-brand-border hover:-translate-y-0.5 transition-transform flex items-center justify-center"
+              >
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path
+                    d="M12 2A10 10 0 0 0 2 12c0 4.42 2.87 8.17 6.84 9.5.5.08.66-.23.66-.5v-1.69c-2.77.6-3.36-1.34-3.36-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.87 1.52 2.34 1.07 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.92 0-1.11.38-2 1.03-2.71-.1-.25-.45-1.29.1-2.64 0 0 .84-.27 2.75 1.02.79-.22 1.65-.33 2.5-.33.85 0 1.71.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.35.2 2.39.1 2.64.65.71 1.03 1.6 1.03 2.71 0 3.82-2.34 4.66-4.57 4.91.36.31.69.92.69 1.85V21c0 .27.16.59.67.5C19.14 20.16 22 16.42 22 12A10 10 0 0 0 12 2z"
+                  />
+                </svg>
+              </a>
+
+              <!-- Instagram -->
+              <a
+                href="https://instagram.com/mankf___"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                class="w-10 h-10 rounded-full bg-gradient-to-tr from-[#F58529] via-[#DD2A7B] to-[#8134AF] text-white border-2 border-brand-border hover:-translate-y-0.5 transition-transform flex items-center justify-center"
+              >
+                <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                  <path
+                    d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"
+                  />
+                </svg>
+              </a>
+            </div>
+
+            <!-- 2 Tombol Sejajar dengan Bentuk Full Rounded (Kapsul) -->
+            <div class="flex flex-wrap items-center justify-center lg:justify-start gap-3.5 pt-3">
+              <a
+                href="Cv Salman.pdf"
+                download
+                id="download-cv-btn"
+                class="cartoon-btn-green text-xs sm:text-sm font-extrabold px-6 py-2.5 rounded-full flex items-center gap-2"
+              >
+                <i data-lucide="download" class="w-4 h-4"></i> Download CV
+              </a>
+
+              <a href="#contact" class="cartoon-btn-white text-xs sm:text-sm font-extrabold px-6 py-2.5 rounded-full flex items-center gap-2">
+                <i data-lucide="mail" class="w-4 h-4 text-brand-green"></i> Contact
+              </a>
+            </div>
+          </div>
+
+          <!-- Kanan: Visual Portrait dengan Doodle Kartun Ceria di Belakang -->
+          <div class="flex-1 flex justify-center w-full">
+            <div class="person-mask-container">
+              <div class="person-Graphic-backdrop">
+                <svg class="w-full h-full max-w-[390px]" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <circle cx="200" cy="215" r="155" fill="#DCFCE7" stroke="#18181B" stroke-width="2.5" />
+                  <circle cx="200" cy="215" r="125" fill="#FEF3C7" stroke="#18181B" stroke-width="2" stroke-dasharray="8 8" />
+
+                  <g transform="rotate(-8 75 95)">
+                    <rect x="25" y="65" width="95" height="52" rx="10" fill="#FFFFFF" stroke="#18181B" stroke-width="2" />
+                    <circle cx="45" cy="85" r="6" fill="#22C55E" stroke="#18181B" stroke-width="1.8" />
+                    <line x1="58" y1="82" x2="102" y2="82" stroke="#18181B" stroke-width="2.5" stroke-linecap="round" />
+                    <line x1="58" y1="94" x2="88" y2="94" stroke="#FACC15" stroke-width="3.5" stroke-linecap="round" />
+                  </g>
+
+                  <g transform="rotate(7 325 105)">
+                    <rect x="280" y="70" width="95" height="58" rx="10" fill="#FFFFFF" stroke="#18181B" stroke-width="2" />
+                    <path d="M292 115 L312 98 L330 106 L358 86 L362 115 Z" fill="#FACC15" />
+                    <polyline points="292,110 312,95 330,103 360,82" stroke="#18181B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  </g>
+
+                  <path d="M55 260 L62 275 L77 282 L62 289 L55 304 L48 289 L33 282 L48 275 Z" fill="#22C55E" stroke="#18181B" stroke-width="2" stroke-linejoin="round" />
+                  <path d="M348 250 L353 262 L365 267 L353 272 L348 284 L343 272 L331 267 L343 262 Z" fill="#FACC15" stroke="#18181B" stroke-width="2" stroke-linejoin="round" />
+                </svg>
+              </div>
+
+              <img src="foto-salman.png" alt="Salman Al Kafi" decoding="async" class="person-image" onerror="this.src = 'https://i.ibb.co/6NGp9D8/salman-placeholder.png'" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Ringkasan Pendidikan -->
+        <div class="mt-10 calm-card rounded-2xl p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+          <div class="flex items-start gap-3.5">
+            <div class="w-12 h-12 rounded-2xl bg-brand-greenSoft border-2 border-brand-border text-brand-text flex items-center justify-center shrink-0">
+              <i data-lucide="graduation-cap" class="w-6 h-6 text-emerald-700"></i>
+            </div>
+            <div>
+              <span class="inline-block text-[10px] font-extrabold text-brand-text bg-brand-yellowSoft border border-brand-border px-2.5 py-0.5 rounded-full uppercase tracking-wider">EDUCATION 2022–2026</span>
+              <h3 class="font-extrabold text-base sm:text-lg text-brand-text mt-1">Islamic University of Lamongan - Bachelor in Informatics Engineering</h3>
+              <p class="text-xs text-brand-sub mt-0.5 leading-relaxed font-medium">
+                <strong class="text-brand-text">Thesis:</strong> Implementation of the <strong class="text-brand-text">Densenet201</strong> Architecture with Transfer Learning for Web Based Shallot Quality Classification, with the model's accuracy reaching 100%.
+              </p>
+            </div>
+          </div>
+          <div class="flex items-center gap-2.5 shrink-0 self-end md:self-center">
+            <span class="px-3.5 py-1.5 rounded-full bg-brand-green text-white border-2 border-brand-border text-xs font-extrabold">GPA 3.80 / 4.00</span>
+            <span class="px-3.5 py-1.5 rounded-full bg-brand-yellowSoft text-brand-text border-2 border-brand-border text-xs font-extrabold">TOEFL 670</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 2. SKILLS & SOFTWARE ================= -->
+      <section id="skills" class="scroll-mt-24 perf-section">
+        <div class="border-t-2 border-dashed border-zinc-300 pt-12">
+          <div class="text-center max-w-xl mx-auto mb-8">
+            <h2 class="font-extrabold text-2xl sm:text-3xl mt-2.5 text-brand-text">Skills & Software</h2>
+          </div>
+
+          <!-- Bagian 1: Logo Software & Bahasa Pemrograman -->
+          <div class="max-w-2xl mx-auto py-3 px-4 mb-10">
+            <div class="flex flex-wrap items-center justify-center gap-x-7 gap-y-6 sm:gap-x-9 sm:gap-y-7">
+              <!-- 1. Python -->
+              <div class="static-scattered-logo -translate-y-1" style="transform: rotate(-7deg)" title="Python">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg" alt="Python" loading="lazy" decoding="async" class="w-9 h-9 sm:w-10 sm:h-10 object-contain" />
+              </div>
+
+              <!-- 2. Roblox Studio -->
+              <div class="static-scattered-logo translate-y-1.5" style="transform: rotate(6deg)" title="Roblox Studio">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/e/ee/Roblox_Studio_icon_2025.svg" alt="Roblox Studio" loading="lazy" decoding="async" class="w-8 h-8 sm:w-9 sm:h-9 object-contain" />
+              </div>
+
+              <!-- 3. Unity -->
+              <div class="static-scattered-logo -translate-y-1.5" style="transform: rotate(-5deg)" title="Unity">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/unity/unity-original.svg" alt="Unity" loading="lazy" decoding="async" class="w-9 h-9 sm:w-10 sm:h-10 object-contain" />
+              </div>
+
+              <!-- 4. Arduino -->
+              <div class="static-scattered-logo translate-y-1" style="transform: rotate(8deg)" title="Arduino">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Arduino_IDE_logo.svg" alt="Arduino" loading="lazy" decoding="async" class="w-9 h-9 sm:w-10 sm:h-10 object-contain" />
+              </div>
+
+              <!-- 5. VS Code -->
+              <div class="static-scattered-logo -translate-y-1" style="transform: rotate(-8deg)" title="VS Code">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg" alt="VS Code" loading="lazy" decoding="async" class="w-8 h-8 sm:w-9 sm:h-9 object-contain" />
+              </div>
+
+              <div class="static-scattered-logo -translate-y-1" style="transform: rotate(-8deg)" title="JavaScipt">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/99/Unofficial_JavaScript_logo_2.svg" alt="JavaScipt" loading="lazy" decoding="async" class="w-8 h-8 sm:w-9 sm:h-9 object-contain" />
+              </div>
+
+              <!-- 7. Microsoft Excel -->
+              <div class="static-scattered-logo -translate-y-1.5" style="transform: rotate(-6deg)" title="Microsoft Excel">
+                <svg class="w-9 h-9 sm:w-10 sm:h-10" viewBox="0 0 48 48" fill="none">
+                  <rect x="12" y="6" width="30" height="36" rx="4" fill="#107C41" />
+                  <path d="M12 15H42V24H12V15Z" fill="#185C37" />
+                  <rect x="6" y="14" width="18" height="20" rx="3" fill="#21A366" />
+                  <path d="M11 19L19 29M19 19L11 29" stroke="white" stroke-width="3" stroke-linecap="round" />
+                </svg>
+              </div>
+
+              <!-- 8. Postman -->
+              <div class="static-scattered-logo translate-y-1" style="transform: rotate(5deg)" title="Postman">
+                <img src="https://www.svgrepo.com/show/354202/postman-icon.svg" alt="Postman" loading="lazy" decoding="async" class="w-9 h-9 sm:w-10 sm:h-10 object-contain" />
+              </div>
+
+              <!-- 9. QGIS -->
+              <div class="static-scattered-logo -translate-y-1" style="transform: rotate(-6deg)" title="QGIS">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/91/QGIS_logo_new.svg" alt="QGIS" loading="lazy" decoding="async" class="w-9 h-9 sm:w-10 sm:h-10 object-contain" />
+              </div>
+
+              <!-- 10. Laravel -->
+              <div class="static-scattered-logo translate-y-1.5" style="transform: rotate(7deg)" title="Laravel">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/9a/Laravel.svg" alt="Laravel" loading="lazy" decoding="async" class="w-9 h-9 sm:w-10 sm:h-10 object-contain" />
+              </div>
+
+              <!-- 11. Java -->
+              <div class="static-scattered-logo -translate-y-1.5" style="transform: rotate(-6deg)" title="Java">
+                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg" alt="Java" loading="lazy" decoding="async" class="w-9 h-9 sm:w-10 sm:h-10 object-contain" />
+              </div>
+
+              <!-- 12. HTML5 -->
+              <div class="static-scattered-logo -translate-y-1" style="transform: rotate(-7deg)" title="HTML5">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/6/61/HTML5_logo_and_wordmark.svg" alt="HTML5" loading="lazy" decoding="async" class="w-9 h-9 sm:w-10 sm:h-10 object-contain" />
+              </div>
+
+              <!-- 13. C++ -->
+              <div class="static-scattered-logo -translate-y-1" style="transform: rotate(-5deg)" title="C++">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/1/18/ISO_C%2B%2B_Logo.svg" alt="C++" loading="lazy" decoding="async" class="w-9 h-9 sm:w-10 sm:h-10 object-contain" />
+              </div>
+            </div>
+          </div>
+
+          <!-- Bagian 2: Technical & Soft Skills Tanpa Background Kotak Besar -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pt-2">
+            <!-- Hard / Technical Skills -->
+            <div class="text-center md:text-left">
+              <h3 class="font-extrabold text-sm text-brand-text mb-3.5 flex items-center justify-center md:justify-start gap-2">
+                <span class="w-6 h-6 rounded-lg bg-brand-green text-white border-2 border-brand-border flex items-center justify-center">
+                  <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+                </span>
+                Technical & Programming Skills
+              </h3>
+              <div class="flex flex-wrap justify-center md:justify-start gap-2.5">
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-greenSoft border-2 border-brand-border text-brand-text text-xs font-extrabold">Machine Learning (Python)</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-white border-2 border-brand-border text-brand-text text-xs font-extrabold">Game Development (Scripting & Design)</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-greenSoft border-2 border-brand-border text-brand-text text-xs font-extrabold">PHP</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-greenSoft border-2 border-brand-border text-brand-text text-xs font-extrabold">Java</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-greenSoft border-2 border-brand-border text-brand-text text-xs font-extrabold">C++</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-yellowSoft border-2 border-brand-border text-brand-text text-xs font-extrabold">Internet of Things</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-white border-2 border-brand-border text-brand-text text-xs font-extrabold">Web Development (JavaScript, HTML, Tailwind CSS)</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-greenSoft border-2 border-brand-border text-brand-text text-xs font-extrabold">Data Analysis</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-white border-2 border-brand-border text-brand-text text-xs font-extrabold">Database (MySQL, PostgreSQL)</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-yellowSoft border-2 border-brand-border text-brand-text text-xs font-extrabold">Geospatial Mapping (QGIS)</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-white border-2 border-brand-border text-brand-text text-xs font-extrabold">Microsoft Office (Excel)</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-greenSoft border-2 border-brand-border text-brand-text text-xs font-extrabold">Computer Vision</span>
+              </div>
+            </div>
+
+            <!-- Soft Skills -->
+            <div class="text-center md:text-left">
+              <h3 class="font-extrabold text-sm text-brand-text mb-3.5 flex items-center justify-center md:justify-start gap-2">
+                <span class="w-6 h-6 rounded-lg bg-brand-yellowSoft text-brand-text border-2 border-brand-border flex items-center justify-center">
+                  <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
+                </span>
+                Soft Skills & Professional Abilities
+              </h3>
+              <div class="flex flex-wrap justify-center md:justify-start gap-2.5">
+                <span class="px-3.5 py-1.5 rounded-full bg-white border-2 border-brand-border text-brand-text text-xs font-extrabold">Analytical Thinking</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-yellowSoft border-2 border-brand-border text-brand-text text-xs font-extrabold">Problem Solving</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-white border-2 border-brand-border text-brand-text text-xs font-extrabold">Team Collaboration</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-greenSoft border-2 border-brand-border text-brand-text text-xs font-extrabold">Communication</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-white border-2 border-brand-border text-brand-text text-xs font-extrabold">Critical Thinking</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-yellowSoft border-2 border-brand-border text-brand-text text-xs font-extrabold">Public Speaking</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-white border-2 border-brand-border text-brand-text text-xs font-extrabold">Project Management</span>
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-greenSoft border-2 border-brand-border text-brand-text text-xs font-extrabold">Data Management</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 3. EXPERIENCE ================= -->
+      <section id="experience" class="scroll-mt-24 perf-section">
+        <div class="border-t-2 border-dashed border-zinc-300 pt-12">
+          <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div>
+              <h2 class="font-extrabold text-2xl sm:text-3xl mt-2.5 text-brand-text">Work & Training Experience</h2>
+            </div>
+
+            <!-- Filter Pengalaman Kerja vs Pelatihan -->
+            <div class="flex flex-wrap gap-2.5 text-xs font-extrabold">
+              <button data-exp-filter="all" class="exp-filter-btn cartoon-btn-green px-4 py-2 rounded-full">All (8)</button>
+              <button data-exp-filter="work" class="exp-filter-btn cartoon-btn-white px-4 py-2 rounded-full">Work Experience (6)</button>
+              <button data-exp-filter="training" class="exp-filter-btn cartoon-btn-white px-4 py-2 rounded-full">Training (2)</button>
+            </div>
+          </div>
+
+          <!-- Grid Experience -->
+          <div id="experience-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+      </section>
+
+      <!-- ================= 4. PROJECT ================= -->
+      <section id="project" class="scroll-mt-24 perf-section">
+        <div class="border-t-2 border-dashed border-zinc-300 pt-12 mb-8">
+          <h2 class="font-extrabold text-2xl sm:text-3xl mt-2.5 text-brand-text">Projects</h2>
+        </div>
+
+        <!-- Grid Project -->
+        <div id="projects-grid" class="grid grid-cols-1 md:grid-cols-2 gap-7"></div>
+      </section>
+
+      <!-- ================= 5. PUBLICATION ================= -->
+      <section id="publication" class="scroll-mt-24 perf-section">
+        <div class="border-t-2 border-dashed border-zinc-300 pt-12">
+          <h2 class="font-extrabold text-2xl sm:text-3xl mt-2.5 mb-6 text-brand-text">Publications</h2>
+
+          <div class="space-y-5">
+            <!-- Publikasi 1 -->
+            <div class="interactive-card calm-card rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="space-y-1.5 max-w-3xl">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="text-[11px] font-extrabold text-brand-text px-2.5 py-0.5 rounded-full bg-brand-greenSoft border-2 border-brand-border">Thesis & Research • 2026</span>
+                  <span class="text-xs text-brand-sub font-bold">Islamic University of Lamongan</span>
+                </div>
+                <h3 class="font-extrabold text-base sm:text-lg text-brand-text">Web-Based Shallot Quality Classification System Using DenseNet201 Architecture</h3>
+                <p class="text-xs sm:text-sm text-brand-sub leading-relaxed font-medium">
+                  Research on the development of a website-integrated computer vision system for the automated classification of shallot quality, achieving an evaluation accuracy of 100%. Currently in the publication process at JAIEA (Sinta
+                  5).
+                </p>
+              </div>
+              <a
+                href="https://drive.google.com/file/d/18uQlBCky9ctvHfCY_onfeRM1CMZDOm8m/view?usp=sharing"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full cartoon-btn-green text-xs font-extrabold"
+              >
+                <span>Read</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              </a>
+            </div>
+
+            <!-- Publikasi 2 -->
+            <div class="interactive-card calm-card rounded-2xl p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+              <div class="space-y-1.5 max-w-3xl">
+                <div class="flex flex-wrap items-center gap-2">
+                  <span class="text-[11px] font-extrabold text-brand-text px-2.5 py-0.5 rounded-full bg-brand-yellowSoft border-2 border-brand-border">PKM Report • November 2025</span>
+                  <span class="text-xs text-brand-sub font-bold">Lamongan State Special Needs School</span>
+                </div>
+                <h3 class="font-extrabold text-base sm:text-lg text-brand-text">Implementation of the Unity-Based Interactive Educational Game "Math Zoo Adventure" for Students with Intellectual Disabilities</h3>
+                <p class="text-xs sm:text-sm text-brand-sub leading-relaxed font-medium">
+                  Publication of activities from the Student Creativity Program – Community Service, focused on designing interactive mathematics learning media tailored to the needs of students with special needs.
+                </p>
+              </div>
+              <a
+                href="https://timesindonesia.co.id/pendidikan/550330/game-math-zoo-adventure-jadikan-siswa-tunagrahita-di-lamongan-betah-belajar-matematika"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="shrink-0 inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full cartoon-btn-green text-xs font-extrabold"
+              >
+                <span>Read</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 6. ACHIEVEMENT ================= -->
+      <section id="achievement" class="scroll-mt-24 perf-section">
+        <div class="border-t-2 border-dashed border-zinc-300 pt-12">
+          <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div>
+              <h2 class="font-extrabold text-2xl sm:text-3xl mt-2.5 text-brand-text">Achievements</h2>
+            </div>
+
+            <!-- 2 Pilihan Tab: Certificate & Award / Penghargaan -->
+            <div class="flex flex-wrap gap-2.5 text-xs font-extrabold">
+              <button data-ach-tab="certificate" class="ach-tab-btn cartoon-btn-green px-5 py-2.5 rounded-full flex items-center gap-1.5">
+                <i data-lucide="file-badge" class="w-4 h-4"></i> Certificate
+              </button>
+              <button data-ach-tab="award" class="ach-tab-btn cartoon-btn-white px-5 py-2.5 rounded-full flex items-center gap-1.5">
+                <i data-lucide="trophy" class="w-4 h-4 text-amber-500"></i> Awards
+              </button>
+            </div>
+          </div>
+
+          <div id="achievements-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+        </div>
+      </section>
+
+      <!-- ================= 7. CONTACT ================= -->
+      <section id="contact" class="scroll-mt-24 perf-section">
+        <div class="max-w-2xl mx-auto calm-card rounded-3xl p-6 sm:p-8 text-center space-y-4 bg-white relative overflow-hidden">
+          <div>
+            <h2 class="font-extrabold text-xl sm:text-2xl text-brand-text mt-2">Contact Me</h2>
+            <p class="text-brand-sub text-xs sm:text-sm font-medium mt-0.5">Contact me directly via Email, LinkedIn, or Instagram:</p>
+          </div>
+
+          <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+            <!-- Email Pill -->
+            <a
+              href="mailto:salman.alkafi.sa@gmail.com"
+              class="cartoon-btn-white inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-extrabold"
+            >
+              <i data-lucide="mail" class="w-4 h-4 text-red-500"></i>
+              <span>salman.alkafi.sa@gmail.com</span>
+            </a>
+
+            <!-- LinkedIn Pill -->
+            <a
+              href="https://www.linkedin.com/in/salmanalkafi"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="cartoon-btn-white inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-extrabold"
+            >
+              <svg class="w-4 h-4 fill-[#0A66C2]" viewBox="0 0 24 24">
+                <path
+                  d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.68-1.69 0-1.69.76-1.69 1.69 0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"
+                />
+              </svg>
+              <span>in/salmanalkafi</span>
+            </a>
+
+            <!-- Instagram Pill -->
+            <a
+              href="https://instagram.com/mankf___"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="cartoon-btn-white inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-xs font-extrabold"
+            >
+              <svg class="w-4 h-4 fill-[#DD2A7B]" viewBox="0 0 24 24">
+                <path
+                  d="M7.8 2h8.4C19.4 2 22 4.6 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8C4.6 22 2 19.4 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2m-.2 2A3.6 3.6 0 0 0 4 7.6v8.8C4 18.39 5.61 20 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6C20 5.61 18.39 4 16.4 4H7.6m9.65 1.5a1.25 1.25 0 0 1 1.25 1.25A1.25 1.25 0 0 1 17.25 8 1.25 1.25 0 0 1 16 6.75a1.25 1.25 0 0 1 1.25-1.25M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3z"
+                />
+              </svg>
+              <span>@Slmn</span>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="border-t-2 border-brand-border py-6 mt-16 bg-white text-brand-sub">
+      <div class="max-w-5xl mx-auto px-4 sm:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs font-bold">
+        <p><strong class="text-brand-text">Salman</strong> • Lamongan, East Java.</p>
+        <a href="#about" class="px-4 py-1.5 rounded-full bg-brand-greenSoft border-2 border-brand-border text-brand-text hover:bg-brand-green hover:text-white transition-colors">Back to Top ↑</a>
+      </div>
+    </footer>
+
+    <!-- ================= MODAL 1: EXPERIENCE (TANPA BACKDROP BLUR BERAT) ================= -->
+    <div id="experience-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70">
+      <div class="bg-white border-2 border-brand-border shadow-xl rounded-3xl max-w-2xl w-full overflow-hidden max-h-[90vh] flex flex-col">
+        <div class="px-6 py-4 border-b-2 border-brand-border flex items-center justify-between bg-brand-yellowSoft">
+          <div>
+            <span id="exp-modal-period" class="text-[11px] font-extrabold text-brand-text uppercase"></span>
+            <h3 id="exp-modal-title" class="font-extrabold text-lg sm:text-xl text-brand-text"></h3>
+            <p id="exp-modal-company" class="text-xs font-bold text-brand-sub"></p>
+          </div>
+          <button id="close-exp-modal" class="p-2 rounded-full bg-white border-2 border-brand-border hover:bg-red-100 text-brand-text transition-colors">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="p-6 overflow-y-auto space-y-5">
+          <div>
+            <p class="text-xs font-extrabold uppercase tracking-wider text-brand-text mb-2.5">Activity Documentation:</p>
+            <div id="exp-modal-photos" class="grid grid-cols-1 sm:grid-cols-3 gap-3"></div>
+          </div>
+
+          <div>
+            <p class="text-xs font-extrabold uppercase tracking-wider text-brand-text mb-2">Responsibilities:</p>
+            <ul id="exp-modal-points" class="space-y-2 text-xs sm:text-sm text-brand-sub font-medium list-disc list-inside leading-relaxed"></ul>
+          </div>
+
+          <div class="pt-4 border-t-2 border-dashed border-zinc-300 flex justify-end">
+            <a
+              id="exp-modal-linkedin"
+              href="https://www.linkedin.com/in/salmanalkafi"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="cartoon-btn-green text-xs sm:text-sm font-extrabold px-5 py-2.5 rounded-full flex items-center gap-2"
+            >
+              <span>Detail</span>
+              <i data-lucide="external-link" class="w-4 h-4"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL 2: PROJECT, CERTIFICATE, & AWARD DETAIL ================= -->
+    <div id="general-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-4 bg-black/70">
+      <div class="bg-white border-2 border-brand-border shadow-xl rounded-3xl max-w-2xl w-full overflow-hidden max-h-[90vh] flex flex-col">
+        <div class="relative p-3.5 pb-0 bg-white shrink-0">
+          <div class="relative h-56 sm:h-64 w-full rounded-2xl bg-zinc-100 border-2 border-brand-border overflow-hidden">
+            <img
+              id="gen-modal-img"
+              src=""
+              alt="Preview"
+              onclick="openLightbox(this.src)"
+              title="Klik"
+              class="w-full h-full object-cover cursor-zoom-in"
+            />
+          </div>
+          <button id="close-gen-modal" class="absolute top-6 right-6 bg-white hover:bg-red-100 text-brand-text border-2 border-brand-border p-2 rounded-full transition-colors">
+            <i data-lucide="x" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <div class="p-6 overflow-y-auto space-y-4">
+          <div>
+            <span id="gen-modal-badge" class="text-[11px] font-extrabold text-brand-text px-3 py-1 rounded-full bg-brand-greenSoft border-2 border-brand-border uppercase"></span>
+            <h3 id="gen-modal-title" class="font-extrabold text-xl text-brand-text mt-2.5"></h3>
+          </div>
+
+          <p id="gen-modal-desc" class="text-xs sm:text-sm text-brand-sub font-medium leading-relaxed"></p>
+
+          <div id="gen-modal-gallery-wrapper" class="hidden pt-1">
+            <p class="text-xs font-extrabold uppercase tracking-wider text-brand-text mb-2.5">Project Documentation:</p>
+            <div id="gen-modal-gallery" class="grid grid-cols-2 sm:grid-cols-3 gap-3"></div>
+          </div>
+
+          <div id="gen-modal-tags" class="flex flex-wrap gap-1.5 pt-1"></div>
+
+          <div id="gen-modal-actions" class="pt-4 border-t-2 border-dashed border-zinc-300 flex flex-wrap justify-end gap-2.5"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= MODAL 3: LIGHTBOX FOTO UKURAN NORMAL ================= -->
+    <div id="image-lightbox" class="fixed inset-0 z-[60] hidden items-center justify-center p-4 sm:p-6 bg-black/90" onclick="closeLightbox()">
+      <button
+        type="button"
+        onclick="closeLightbox()"
+        aria-label="Tutup Foto"
+        class="absolute top-4 right-4 sm:top-6 sm:right-6 bg-white hover:bg-brand-yellowSoft text-brand-text border-2 border-brand-border p-2.5 rounded-full transition-colors"
+      >
+        <i data-lucide="x" class="w-6 h-6"></i>
+      </button>
+      <img
+        id="lightbox-img"
+        src=""
+        alt="Full Size Documentation"
+        onclick="event.stopPropagation()"
+        class="max-w-full max-h-[88vh] w-auto h-auto object-contain rounded-2xl border-2 border-brand-border bg-white"
+      />
+    </div>
+
+    <!-- ================= JAVASCRIPT DATA & INTERACTIVITY ================= -->
+    <script>
+      // LOGIKA LIGHTBOX PEMBESAR FOTO NORMAL (UTUH)
+      const imageLightbox = document.getElementById("image-lightbox");
+      const lightboxImg = document.getElementById("lightbox-img");
+
+      window.openLightbox = function (src) {
+        if (!src) return;
+        lightboxImg.src = src;
+        imageLightbox.classList.remove("hidden");
+        imageLightbox.classList.add("flex");
+      };
+
+      window.closeLightbox = function () {
+        imageLightbox.classList.add("hidden");
+        imageLightbox.classList.remove("flex");
+        lightboxImg.src = "";
+      };
+
+      // LOGIKA TOMBOL GARIS 3 (HAMBURGER MENU) UNTUK HP
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenuDropdown = document.getElementById("mobile-menu-dropdown");
+      const hamburgerIcon = document.getElementById("hamburger-icon");
+      const closeMenuIcon = document.getElementById("close-menu-icon");
+
+      function toggleMobileMenu() {
+        const isHidden = mobileMenuDropdown.classList.contains("hidden");
+        if (isHidden) {
+          mobileMenuDropdown.classList.remove("hidden");
+          mobileMenuDropdown.classList.add("flex");
+          hamburgerIcon.classList.add("hidden");
+          closeMenuIcon.classList.remove("hidden");
+        } else {
+          mobileMenuDropdown.classList.add("hidden");
+          mobileMenuDropdown.classList.remove("flex");
+          hamburgerIcon.classList.remove("hidden");
+          closeMenuIcon.classList.add("hidden");
+        }
+      }
+
+      mobileMenuBtn.addEventListener("click", toggleMobileMenu);
+
+      document.querySelectorAll(".mobile-nav-link").forEach((link) => {
+        link.addEventListener("click", () => {
+          mobileMenuDropdown.classList.add("hidden");
+          mobileMenuDropdown.classList.remove("flex");
+          hamburgerIcon.classList.remove("hidden");
+          closeMenuIcon.classList.add("hidden");
+        });
+      });
+
+      // 1. DATA EXPERIENCE & TRAINING
+      const experiencesData = [
+        {
+          id: 1,
+          type: "work",
+          badge: "Economic Census",
+          role: "Data Collection Officer",
+          company: "Badan Pusat Statistika",
+          period: "Juni - Agustus 2026",
+          cover: "e3.jpg",
+          photos: ["e1.jpg", "e2.jpg", "e3.jpg"],
+          points: [
+            "Executed end-to-end field data collection using BPS's official mobile app (FASIH), successfully capturing and digitizing demographic and business profiles across 600+ assigned pre-lists.",
+            "Cross-checked and verified baseline field data to ensure high data integrity, accuracy, and completeness prior to central database synchronization.",
+            "Applied strong interpersonal and interviewing skills to engage households and local business owners, maintaining high response and compliance rates.",
+          ],
+          linkedinUrl: "https://www.linkedin.com/in/salmanalkafi",
+        },
+        {
+          id: 2,
+          type: "work",
+          badge: "Roblox Studio",
+          role: "Game Developer",
+          company: "Roblox Corporation",
+          period: "Agustus 2025 – Present",
+          cover: "r1.jpg",
+          photos: ["r2.jpg", "r3.jpg", "r4.jpg"],
+          points: [
+            "Independently developed approximately 8 Roblox games and create 10 games for customers, covering the entire process from concept planning, level design, and 3D environment building to gameplay programming, as well as the implementation and testing of in-game features.",
+            "Contributed to the development of a Roblox game that reached approximately 3,800 daily players, and worked on games that garnered 6 million, 1.8 million, and 320,000 visits, respectively.",
+            "Conducting testing, debugging, and error fixing for game scripts and mechanisms to improve stability, functionality, and gameplay quality.",
+          ],
+          linkedinUrl: "https://www.roblox.com/share?code=55da7c97f4a9ec46b037bc6548b14093&type=ExperienceDetails&stamp=1793092241576",
+        },
+        {
+          id: 3,
+          type: "work",
+          badge: "Wilkerstat",
+          role: "Processing Officer",
+          company: "Badan Pusat Statistika",
+          period: "September 2025",
+          cover: "w1.jpg",
+          photos: ["w2.jpg", "w3.jpg", "w1.jpg"],
+          points: [
+            "Operating QGIS to open, manage, edit, and update geospatial data layers for 10 villages as part of the process of updating the village-level spatial framework.",
+            "Conducting checks and adjustments of spatial information on regional maps, including the representation of regional boundaries and the alignment of geographic features with available supporting data.",
+            "Managing spatial data attributes related to the identity and information of a region to maintain alignment between map objects and tabular data.",
+          ],
+          linkedinUrl: "https://www.linkedin.com/in/salmanalkafi",
+        },
+        {
+          id: 4,
+          type: "work",
+          badge: "household economic census",
+          role: "Processing Officer",
+          company: "Badan Pusat Statistika",
+          period: "Februari & April 2025",
+          cover: "s2.jpg",
+          photos: ["s1.jpg", "s2.jpg"],
+          points: [
+            "Conducting the review and processing of data from a household survey, comprising 650 documents, to ensure the completeness of information across the collected variables.",
+            "Checking for consistency across variables and identifying data that is incomplete, inconsistent, or potentially subject to recording errors triwulan I and II.",
+            "Verifying and adjusting data in accordance with established processing guidelines to maintain the quality of statistical data.",
+          ],
+          linkedinUrl: "https://www.linkedin.com/in/salmanalkafi",
+        },
+        {
+          id: 5,
+          type: "work",
+          badge: "agricultural census",
+          role: "Processing Officer",
+          company: "Badan Pusat Statistika",
+          period: "Juni – Juli 2023",
+          cover: "p1.jpg",
+          photos: ["p2.jpg", "p1.jpg"],
+          points: [
+            "Manage and review 900 enumeration documents to ensure the completeness of information and the alignment of entries with data processing requirements.",
+            "Develop an understanding of the structure and characteristics of agricultural data—pertaining to farming activities, commodities, and land use—within the scope of the documents being handled.",
+            "Gain insight into the relationship between agricultural data and the socio-economic information of the agricultural sector through the process of reviewing and processing census documents.",
+          ],
+          linkedinUrl: "https://www.linkedin.com/in/salmanalkafi",
+        },
+        {
+          id: 6,
+          type: "work",
+          badge: "Funding Convensional",
+          role: "DSR Junior Funding",
+          company: "Cimb Niaga",
+          period: "Agustus - Oktober 2024",
+          cover: "c1.jpg",
+          photos: ["c2.jpg", "c1.jpg"],
+          points: [
+            "Assisted in the account opening process for Universitas Islam Lamongan (UNISLA) students, including collecting customer information, guiding students through registration procedures, and ensuring that the required account-opening documentation was completed accurately.",
+            "Supported customer acquisition activities by introducing conventional banking products and explaining the benefits, requirements, and procedures for opening a bank account to prospective customers.",
+            "Conducted initial verification of customer data and supporting documents to help ensure the accuracy, completeness, and consistency of information submitted during account registration.",
+          ],
+          linkedinUrl: "https://www.linkedin.com/in/salmanalkafi",
+        },
+        {
+          id: 7,
+          type: "training",
+          badge: "MSIB Batch 7",
+          role: "Internet of Things",
+          company: "MySkill - Kampus Merdeka",
+          period: "September – Desember 2024",
+          cover: "m1.jpg",
+          photos: ["m2.jpg", "m3.jpg", "m1.jpg"],
+          points: [
+            "Developing ESP32 microcontroller programs using the Arduino IDE, integrating DHT22, PIR, and ultrasonic sensors, as well as servo actuators, through electronic circuit simulation and programming for an IoT-based monitoring and automation system. Final Project: Developing an IoT-based air quality monitoring system designed to detect ammonia gas in a chicken coop.",
+            "Studying the implementation of Wi-Fi, LoRa, and cellular communication technologies for IoT device connectivity, as well as applying HTTP and MQTT protocols for data exchange between devices, the HiveMQ broker, and an IoT platform. Postman, ThingsBoard, Wokwi, MIT App Inventor, Node-RED, dan Blynk.",
+            "Developed a final project consisting of a smart smoke detector that integrates sensors, a buzzer, an LED, and a relay to function as an automated warning system. Created responsive web interface components and utilized version control (Git) and an Agile approach for project management.",
+          ],
+          linkedinUrl: "https://drive.google.com/drive/folders/1zoJqdAnibqxwor1tcvwe0tKUbNh_6Dbj?usp=sharing",
+        },
+        {
+          id: 8,
+          type: "training",
+          badge: "Data Scientist",
+          role: "Data Scientist With Python",
+          company: "Prakerja - Skill Academy Ruangguru",
+          period: "Agustus 2022",
+          cover: "pr.jpg",
+          photos: ["pr1.jpg", "pr.jpg"],
+          points: [
+            "Learning to apply Python for data processing tasks—ranging from understanding data structures and requirements and preparing data for processing, to ensuring that data is ready for use in statistical analysis and data science.",
+            "Understanding architectural design and data structures, as well as the implementation of data models tailored to analytical requirements. This involves studying how data is organized and managed to support systematic information processing.",
+            "Studying the processes of accessing, managing, and maintaining data, with a focus on information integrity, consistency, and security. Understanding the importance of upholding data quality and reliability to support data-driven analysis and decision-making.",
+          ],
+          linkedinUrl: "https://drive.google.com/file/d/1bxzv0_hIDrRI3_RVZOvyc59f_eRArUEs/view?usp=sharing",
+        },
+      ];
+
+      // 2. DATA PROJECT
+      const projectsData = [
+        {
+          id: 1,
+          categoryLabel: "Web & Deep Learning",
+          title: "Classification of Shallot Quality - CNN DenseNet201",
+          image: "sk1.jpg",
+          photos: ["sk3.jpg", "sk2.jpg", "sk4.jpg"],
+          shortDesc: "A web-based system utilizing a Deep Learning DenseNet201 architecture to classify the quality of shallots (100% evaluation accuracy).",
+          fullDesc: "An undergraduate thesis project in Informatics Engineering that combines Computer Vision (Python & DenseNet201) with a modern web interface to automate the quality grading of shallots with high accuracy.",
+          tags: ["Python", "DenseNet201", "Deep Learning", "Web (Laravel)", "CNN"],
+          links: [
+            { label: "GitHub", url: "https://github.com/SalmanAlKafii/Website-ShallotQuality", primary: false },
+            { label: "Document File", url: "https://drive.google.com/file/d/18uQlBCky9ctvHfCY_onfeRM1CMZDOm8m/view?usp=sharing", primary: true },
+          ],
+        },
+        {
+          id: 2,
+          categoryLabel: "Unity Game",
+          title: "Math Zoo Adventure - Educational Game For SLB Student",
+          image: "un1.jpg",
+          photos: ["un.jpg", "un2.jpg", "un3.jpg"],
+          shortDesc: "A Unity-based interactive educational game for mathematical calculations, implemented directly with students with intellectual disabilities at SLB Negeri Lamongan.",
+          fullDesc: "Developed as part of the Student Creativity Program (PKM) for Community Service. Designed with child-friendly visuals, interactive audio, and a difficulty curve tailored for students with special needs.",
+          tags: ["Unity", "C#", "Game Design", "Interactive Education", "Team Work"],
+          links: [
+            { label: "News", url: "https://timesindonesia.co.id/pendidikan/550330/game-math-zoo-adventure-jadikan-siswa-tunagrahita-di-lamongan-betah-belajar-matematika", primary: false },
+            { label: "Download Game", url: "https://drive.google.com/drive/folders/17o42HAXwrXdQwpCygvSI4EsAMSsaywyX", primary: true },
+          ],
+        },
+        {
+          id: 3,
+          categoryLabel: "Internet of Things",
+          title: "Smart Poultry - Amonia Gas Detection in Chicken Coops",
+          image: "sm2.jpg",
+          photos: ["sm.jpg", "sm1.jpg", "sm4.jpg"],
+          shortDesc: "Microcontroller-based air quality monitoring system using IoT sensors to detect ammonia gas levels in real-time.",
+          fullDesc: "MSIB Batch 7 (MySkill) final project. Integrating gas sensors with Arduino, a ThingsBoard monitoring dashboard, Node-RED, and mobile notifications via Blynk.",
+          tags: ["Arduino", "ThingsBoard", "Wiring", "Blynk", "IoT"],
+          links: [
+            { label: "Code", url: "https://drive.google.com/file/d/1CxvhRgExphByPePLfsQqObFjNlanlW8Z/view?usp=sharing", primary: false },
+            { label: "Implementation", url: "https://drive.google.com/file/d/1_xtgnj8LdhNCpIiKmj_vkfCdwldJdAzM/view?usp=sharing", primary: true },
+          ],
+        },
+        {
+          id: 4,
+          categoryLabel: "Roblox",
+          title: "Mount Sendang Game",
+          image: "rb.jpg",
+          photos: ["rb1.jpg", "rb3.jpg"],
+          shortDesc: "Independently developing a mountain-climbing-themed game on Roblox, covering everything from concept design and gameplay.",
+          fullDesc: "Independent develop 3D map and environment creation, and scripting in Lua, to the implementation of game mechanics and gameplay optimization. This project successfully reached over 6 million cumulative player visits, with a peak of 3,800 player visits in a single day, demonstrating the capability to develop games that can reach a large-scale audience.",
+          tags: ["Debugging", "Lua", "3D Assets", "GUI Scripting", "Game Design"],
+          links: [
+            { label: "GitHub", url: "https://github.com/SalmanAlKafii/Script-Roblox", primary: false },
+            { label: "Play on Roblox", url: "https://www.roblox.com/share?code=55da7c97f4a9ec46b037bc6548b14093&type=ExperienceDetails&stamp=1793092241576", primary: true }
+          ],
+        },
+        {
+          id: 5,
+          categoryLabel: "Internet Of Things",
+          title: "Smart Count - Costumer Counter",
+          image: "cs.jpg",
+          photos: ["cs1.jpg", "cs2.jpg", "cs3.jpg"],
+          shortDesc: "Building an IoT-based device to count the number of visitors entering a store, using an ESP32, an ultrasonic sensor, and an LCD.",
+          fullDesc: "Designing an automated visitor counting system using ultrasonic sensors and a microcontroller, with an LCD to display the number of visitors who have entered.",
+          tags: ["Esp32", "Wiring IoT", "IoT Scripting", "Smart Tools", "Design"],
+          links: [{ label: "Implementation", url: "https://drive.google.com/file/d/1A7op77iU4OKP-jtW8YqzzXjZzqTMrxms/view?usp=sharing", primary: true }],
+        },
+        {
+          id: 6,
+          categoryLabel: "Computer Vision",
+          title: "Digital Image Processing Thresholding",
+          image: "sgmn.jpg",
+          photos: ["sgmn1.jpg", "sgmn2.jpg"],
+          shortDesc: "Developing a digital image processing system using a thresholding method to separate objects from the background based on pixel intensity values.",
+          fullDesc: "This project implements an image segmentation technique by defining a threshold value to convert a grayscale image into a binary image, thereby facilitating easier identification of objects. It encompasses image processing, the application of thresholding algorithms, and the analysis of visual outputs to gain an understanding of the segmentation and object extraction process in digital images.",
+          tags: ["Computer Vision", "Digital Image", "Python", "Html", "Thresholding"],
+          links: [
+            { label: "GitHUb", url: "https://github.com/SalmanAlKafii/image-segmentation", primary: false },
+            { label: "Open", url: "https://image-segmentation-topaz.vercel.app/", primary: true },
+          ],
+        },
+        {
+          id: 7,
+          categoryLabel: "Roblox",
+          title: "Mount Sendang V2 Game",
+          image: "sv1.jpg",
+          photos: ["sv2.jpg", "sv3.jpg"],
+          shortDesc: "Independently developing a mountain-climbing-themed game on Roblox, covering everything from concept design and gameplay.",
+          fullDesc: "Independent develop 3D map and environment creation, and scripting in Lua, to the implementation of game mechanics and gameplay optimization. This project successfully reached over 3 million cumulative player visits, with a peak of 2,800 player visits in a single day, demonstrating the capability to develop games that can reach a large-scale audience.",
+          tags: ["Roblox Studio", "Lua", "3D Assets", "GUI Scripting", "Game Design"],
+          links: [{ label: "Play on Roblox", url: "https://www.roblox.com/share?code=37aaadc717558a45892fed5752408b53&type=ExperienceDetails&stamp=1793254169185", primary: true }],
+        },
+        {
+          id: 8,
+          categoryLabel: "Roblox",
+          title: "Angkringan (Hangout) Game",
+          image: "aj1.jpg",
+          photos: ["aj2.jpg"],
+          shortDesc: "Team developing a Hangout-themed game on Roblox, covering everything from concept design and gameplay.",
+          fullDesc: "Team develop 3D map and environment creation, and scripting in Lua, to the implementation of game mechanics and gameplay optimization. This project successfully reached over 100k cumulative player visits, with a peak of 600 player visits in a single day, demonstrating the capability to develop games that can reach a large-scale audience.",
+          tags: ["Roblox Studio", "Lua", "3D Assets", "GUI Scripting", "Game Design"],
+          links: [{ label: "Play on Roblox", url: "https://www.roblox.com/share?code=c2cc9b98453e1049848c6e788c81cdbd&type=ExperienceDetails&stamp=1793254140848", primary: true }],
+        },
+        {
+          id: 9,
+          categoryLabel: "Roblox",
+          title: "Mount Triplek Game",
+          image: "trp.jpg",
+          photos: ["trp1.jpg", "trp2.jpg"],
+          shortDesc: "Independently developing a mountain-climbing-themed game on Roblox, covering everything from concept design and gameplay.",
+          fullDesc: "Independent develop 3D map and environment creation, and scripting in Lua, to the implementation of game mechanics and gameplay optimization. This project successfully reached over 300k cumulative player visits, with a peak of 1k player visits in a single day, demonstrating the capability to develop games that can reach a large-scale audience.",
+          tags: ["Roblox Studio", "Lua", "3D Assets", "GUI Scripting", "Game Design"],
+          links: [{ label: "Play on Roblox", url: "https://www.roblox.com/share?code=d21950e8d7256f4eaf2f8e0dcc89ddb5&type=ExperienceDetails&stamp=1793363430016", primary: true }],
+        },
+        {
+          id: 10,
+          categoryLabel: "Roblox",
+          title: "Mount Rujak Game",
+          image: "rjk.jpg",
+          photos: ["rjk1.jpg", "rjk2.jpg"],
+          shortDesc: "Independently developing a mountain-climbing-themed game on Roblox, covering everything from concept design and gameplay.",
+          fullDesc: "Independent develop 3D map and environment creation, and scripting in Lua, to the implementation of game mechanics and gameplay optimization. This project successfully reached over 100k cumulative player visits, with a peak of 700 player visits in a single day, demonstrating the capability to develop games that can reach a large-scale audience.",
+          tags: ["Roblox Studio", "Lua", "3D Assets", "GUI Scripting", "Game Design"],
+          links: [{ label: "Play on Roblox", url: "https://www.roblox.com/share?code=9e932a0e5a0b5041bd15169a04f466bc&type=ExperienceDetails&stamp=1793363449405", primary: true }],
+        },
+      ];
+
+      // 3A. DATA CERTIFICATE
+      const certificatesData = [
+        {
+          id: 1,
+          issuer: "Kemendikbudristek RI • MSIB Batch 7 (2024)",
+          title: "Certified Independent Study - Internet of Things in MySkill",
+          image: "msib.jpg",
+          desc: "Certificate of completion for the MSIB Batch 7 program in the field of Internet of Things (IoT). It covers proficiency in Arduino, ThingsBoard, Wokwi, Mit App, Node-RED, and Blynk, and includes a final project focused on an ammonia gas detection system using smoke detector.",
+          certUrl: "https://drive.google.com/file/d/1uMKvss6cJWKZDG9Q-WQj1Q-dcze1l0wo/view?usp=sharing",
+        },
+        {
+          id: 2,
+          issuer: "Student Creativity Program PKM-PM (2025)",
+          title: "Development of the Educational Game Math Zoo Adventure With Unity",
+          image: "pkm.jpg",
+          desc: "Certificate of appreciation and Intellectual Property Rights (IPR) documentation resulting from the implementation of a Student Creativity Program (PKM) project, which involved developing interactive game-based learning media at the State Special Needs School (SLB Negeri) in Lamongan.",
+          certUrl: "https://drive.google.com/file/d/13WXtVQ12SSZ-Z-4fq8_7kCbMy0gIIhzn/view?usp=sharing",
+        },
+        {
+          id: 3,
+          issuer: "English test (2026)",
+          title: "TOEFL IBT Islamic University of Lamongan",
+          image: "TOEFL.jpg",
+          desc: "Universitas Islam Lamongan is conducting an iBT-based English test.",
+          certUrl: "https://drive.google.com/file/d/10djcIxP7w-aOuw4cyb6UpiOxILfhoYcH/view?usp=sharing",
+        },
+        {
+          id: 4,
+          issuer: "Prakerja (2022)",
+          title: "Data Scientist with Python",
+          image: "prkr.jpg",
+          desc: "Certificate of completion for Pre-Employment (Prakerja) training at Skill Academy, focusing on the use of Python for data scientists.",
+          certUrl: "https://drive.google.com/file/d/1p-Zx8lyWNZwsTf3a9HUxGGEMM6pGvfdJ/view?usp=sharing",
+        },
+        {
+          id: 5,
+          issuer: "HKI Certificate (2025)",
+          title: "Intellectual Property Rights Math Zoo Adventure Game",
+          image: "hki.jpg",
+          desc: "Research certificate regarding the implementation of the Math Zoo Adventure medium for students with intellectual disabilities at SLB Negeri Lamongan, aimed at improving their understanding of mathematical concepts.",
+          certUrl: "https://drive.google.com/file/d/1YZ-43EqRdYk4sLJn5IgXyMJN8KGQIQcw/view?usp=sharing",
+        },
+        {
+          id: 6,
+          issuer: "HKI Certificate (2025)",
+          title: "intellectual property rights for prediction systems",
+          image: "hkii.jpg",
+          desc: "Certificate of ownership of the 2024 UB student prediction system project using the Python language and the SES method",
+          certUrl: "https://drive.google.com/file/d/18Cqy9kZEFvktK_hcV3VQ4q74qQ9cYN6h/view?usp=sharing",
+        },
+      ];
+
+      // 3B. DATA AWARD / PENGHARGAAN
+      const awardsData = [
+        {
+          id: 101,
+          issuer: "Student Creativity Program (PKM) • 2025",
+          title: "Funding & Implementation of Community Service Student Creativity Programs (PKM-PM)",
+          image: "PKP.jpg",
+          desc: "Recognition for the team success in designing and implementing the interactive educational game Math Zoo Adventure for students with intellectual disabilities at SLB Negeri Lamongan.",
+        },
+        {
+          id: 102,
+          issuer: "Graduation Eligibility Assessment",
+          title: "The Most Oustanding Student",
+          image: "pia.jpg",
+          desc: "Academic achievement as an active and high-achieving student, demonstrated through participation in various activities—such as being a participant in MSIB Batch 7, securing funding for the 2025 Student Creativity Program (PKM), and more.",
+        },
+      ];
+
+      // ================= RENDER EXPERIENCE =================
+      const expGrid = document.getElementById("experience-grid");
+      function renderExperiences(filter = "all") {
+        const list = filter === "all" ? experiencesData : experiencesData.filter((e) => e.type === filter);
+        const fragment = document.createDocumentFragment();
+
+        list.forEach((item) => {
+          const card = document.createElement("div");
+          card.className = "interactive-card cursor-pointer calm-card rounded-2xl p-3.5 flex flex-col justify-between group";
+          card.onclick = () => openExpModal(item.id);
+
+          card.innerHTML = `
+            <div>
+              <div class="relative h-44 rounded-xl overflow-hidden bg-zinc-100 border-2 border-brand-border mb-3.5">
+                <img src="${item.cover}" alt="${item.role}" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+                <span class="absolute top-2.5 left-2.5 bg-brand-yellowSoft border-2 border-brand-border text-brand-text text-[10px] font-extrabold px-2.5 py-1 rounded-full uppercase">
+                  ${item.badge}
+                </span>
+                <span class="absolute bottom-2.5 right-2.5 bg-white text-brand-text border-2 border-brand-border text-[10px] font-extrabold px-2.5 py-1 rounded-lg flex items-center gap-1">
+                  <i data-lucide="images" class="w-3 h-3 text-brand-green"></i> Foto
+                </span>
+              </div>
+              <div class="px-1 space-y-1.5">
+                <p class="text-[11px] font-extrabold text-emerald-700">${item.period}</p>
+                <h3 class="font-extrabold text-base text-brand-text group-hover:text-brand-green transition-colors line-clamp-1">${item.role}</h3>
+                <p class="text-xs font-bold text-brand-sub">${item.company}</p>
+                <p class="text-xs text-brand-sub line-clamp-2 pt-1 leading-relaxed font-medium">${item.points[0]}</p>
+              </div>
+            </div>
+            <div class="px-1 pt-3 mt-3 border-t-2 border-dashed border-zinc-200 flex items-center justify-between text-xs font-extrabold text-brand-text group-hover:text-brand-green">
+              <span>View Details</span>
+              <i data-lucide="arrow-up-right" class="w-4 h-4"></i>
+            </div>
+          `;
+          fragment.appendChild(card);
+        });
+        expGrid.innerHTML = "";
+        expGrid.appendChild(fragment);
+        lucide.createIcons({ root: expGrid });
+      }
+
+      document.querySelectorAll(".exp-filter-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".exp-filter-btn").forEach((b) => {
+            b.className = "exp-filter-btn cartoon-btn-white px-4 py-2 rounded-full";
+          });
+          btn.className = "exp-filter-btn cartoon-btn-green px-4 py-2 rounded-full";
+          renderExperiences(btn.getAttribute("data-exp-filter"));
+        });
+      });
+
+      const expModal = document.getElementById("experience-modal");
+      window.openExpModal = function (id) {
+        const item = experiencesData.find((e) => e.id === id);
+        if (!item) return;
+
+        document.getElementById("exp-modal-period").textContent = `${item.badge} • ${item.period}`;
+        document.getElementById("exp-modal-title").textContent = item.role;
+        document.getElementById("exp-modal-company").textContent = item.company;
+
+        document.getElementById("exp-modal-photos").innerHTML = item.photos
+          .map(
+            (src, idx) => `
+          <div onclick="openLightbox('${src}')" title="Klik" class="cursor-zoom-in aspect-video rounded-xl overflow-hidden border-2 border-brand-border bg-zinc-100 hover:border-brand-green transition-colors">
+            <img src="${src}" alt="Dokumentasi ${idx + 1}" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+          </div>
+        `,
+          )
+          .join("");
+
+        document.getElementById("exp-modal-points").innerHTML = item.points.map((pt) => `<li>${pt}</li>`).join("");
+        document.getElementById("exp-modal-linkedin").href = item.linkedinUrl;
+
+        expModal.classList.remove("hidden");
+        expModal.classList.add("flex");
+        document.body.style.overflow = "hidden";
+      };
+
+      document.getElementById("close-exp-modal").onclick = () => {
+        expModal.classList.add("hidden");
+        expModal.classList.remove("flex");
+        document.body.style.overflow = "";
+      };
+
+      // ================= RENDER PROJECTS =================
+      const projGrid = document.getElementById("projects-grid");
+      function renderProjects() {
+        const fragment = document.createDocumentFragment();
+        projectsData.forEach((p) => {
+          const card = document.createElement("div");
+          card.className = "interactive-card calm-card rounded-2xl p-4 flex flex-col justify-between group";
+
+          const actionButtonsHtml = (p.links || [])
+            .map((lnk) => {
+              const btnClass = lnk.primary
+                ? "cartoon-btn-green"
+                : "cartoon-btn-white";
+              return `<a href="${lnk.url}" target="_blank" rel="noopener noreferrer" onclick="event.stopPropagation()" class="text-[11px] font-extrabold px-3.5 py-1.5 rounded-full ${btnClass}">${lnk.label}</a>`;
+            })
+            .join("");
+
+          const photoCount = p.photos && p.photos.length ? p.photos.length : 1;
+
+          card.innerHTML = `
+            <div class="cursor-pointer" onclick="openProjectModal(${p.id})">
+              <div class="relative h-52 rounded-xl overflow-hidden bg-zinc-100 border-2 border-brand-border mb-4">
+                <img src="${p.image}" alt="${p.title}" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+                <span class="absolute top-2.5 left-2.5 bg-brand-yellowSoft border-2 border-brand-border text-brand-text text-[10px] font-extrabold px-3 py-1 rounded-full uppercase">
+                  ${p.categoryLabel}
+                </span>
+                <span class="absolute bottom-2.5 right-2.5 bg-white text-brand-text border-2 border-brand-border text-[10px] font-extrabold px-2.5 py-1 rounded-lg flex items-center gap-1">
+                  <i data-lucide="images" class="w-3 h-3 text-brand-green"></i> ${photoCount} Foto
+                </span>
+              </div>
+              <div class="px-1 space-y-2">
+                <h3 class="font-extrabold text-lg text-brand-text group-hover:text-brand-green transition-colors">${p.title}</h3>
+                <p class="text-xs sm:text-sm text-brand-sub font-medium leading-relaxed">${p.shortDesc}</p>
+                <div class="flex flex-wrap gap-1.5 pt-1.5">
+                  ${p.tags.map((t, i) => `<span class="${i % 2 === 0 ? 'bg-brand-greenSoft' : 'bg-brand-yellowSoft'} border border-brand-border text-brand-text text-[10px] font-extrabold px-2.5 py-1 rounded-full">${t}</span>`).join("")}
+                </div>
+              </div>
+            </div>
+            <div class="px-1 pt-3 mt-4 border-t-2 border-dashed border-zinc-200 flex flex-wrap items-center justify-between gap-2">
+              <button onclick="openProjectModal(${p.id})" class="text-xs font-extrabold text-brand-text hover:text-brand-green flex items-center gap-1">
+                Project Details <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
+              </button>
+              <div class="flex flex-wrap items-center gap-2">
+                ${actionButtonsHtml}
+              </div>
+            </div>
+          `;
+          fragment.appendChild(card);
+        });
+        projGrid.innerHTML = "";
+        projGrid.appendChild(fragment);
+        lucide.createIcons({ root: projGrid });
+      }
+
+      // ================= RENDER ACHIEVEMENTS =================
+      const achGrid = document.getElementById("achievements-grid");
+      function renderAchievements(tab = "certificate") {
+        const fragment = document.createDocumentFragment();
+
+        if (tab === "certificate") {
+          certificatesData.forEach((c) => {
+            const card = document.createElement("div");
+            card.className = "interactive-card cursor-pointer calm-card rounded-2xl p-3.5 flex flex-col justify-between group";
+            card.onclick = () => openCertModal(c.id);
+
+            card.innerHTML = `
+              <div>
+                <div class="aspect-video w-full rounded-xl bg-zinc-100 overflow-hidden border-2 border-brand-border mb-3.5">
+                  <img src="${c.image}" alt="${c.title}" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+                </div>
+                <div class="px-1">
+                  <span class="text-[10px] font-extrabold text-emerald-700 uppercase">${c.issuer}</span>
+                  <h3 class="font-extrabold text-sm text-brand-text mt-1 leading-snug group-hover:text-brand-green transition-colors">${c.title}</h3>
+                </div>
+              </div>
+              <div class="px-1 pt-3 mt-3 border-t-2 border-dashed border-zinc-200 flex items-center justify-between text-xs font-extrabold text-brand-text group-hover:text-brand-green">
+                <span>View Certificate</span>
+                <i data-lucide="external-link" class="w-4 h-4"></i>
+              </div>
+            `;
+            fragment.appendChild(card);
+          });
+        } else {
+          awardsData.forEach((a) => {
+            const card = document.createElement("div");
+            card.className = "interactive-card cursor-pointer calm-card rounded-2xl p-3.5 flex flex-col justify-between group";
+            card.onclick = () => openAwardModal(a.id);
+
+            card.innerHTML = `
+              <div>
+                <div class="aspect-video w-full rounded-xl bg-zinc-100 overflow-hidden border-2 border-brand-border mb-3.5">
+                  <img src="${a.image}" alt="${a.title}" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+                </div>
+                <div class="px-1">
+                  <span class="text-[10px] font-extrabold text-amber-600 uppercase">${a.issuer}</span>
+                  <h3 class="font-extrabold text-sm text-brand-text mt-1 leading-snug group-hover:text-brand-green transition-colors">${a.title}</h3>
+                  <p class="text-xs text-brand-sub font-medium mt-1.5 leading-relaxed">${a.desc}</p>
+                </div>
+              </div>
+            `;
+            fragment.appendChild(card);
+          });
+        }
+        achGrid.innerHTML = "";
+        achGrid.appendChild(fragment);
+        lucide.createIcons({ root: achGrid });
+      }
+
+      document.querySelectorAll(".ach-tab-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".ach-tab-btn").forEach((b) => {
+            b.className = "ach-tab-btn cartoon-btn-white px-5 py-2.5 rounded-full flex items-center gap-1.5";
+          });
+          btn.className = "ach-tab-btn cartoon-btn-green px-5 py-2.5 rounded-full flex items-center gap-1.5";
+          renderAchievements(btn.getAttribute("data-ach-tab"));
+        });
+      });
+
+      // ================= MODAL UMUM UNTUK PROJECT, CERTIFICATE, & AWARD =================
+      const genModal = document.getElementById("general-modal");
+      const galleryWrapper = document.getElementById("gen-modal-gallery-wrapper");
+      const galleryGrid = document.getElementById("gen-modal-gallery");
+      const genModalActions = document.getElementById("gen-modal-actions");
+
+      window.setModalMainImage = function (src) {
+        document.getElementById("gen-modal-img").src = src;
+      };
+
+      window.openProjectModal = function (id) {
+        const p = projectsData.find((x) => x.id === id);
+        if (!p) return;
+
+        document.getElementById("gen-modal-img").src = p.image;
+        document.getElementById("gen-modal-badge").textContent = p.categoryLabel;
+        document.getElementById("gen-modal-title").textContent = p.title;
+        document.getElementById("gen-modal-desc").textContent = p.fullDesc;
+
+        if (p.photos && p.photos.length > 0) {
+          galleryWrapper.classList.remove("hidden");
+          galleryGrid.innerHTML = p.photos
+            .map(
+              (src, idx) => `
+              <div onclick="setModalMainImage('${src}'); openLightbox('${src}')" title="Klik" class="cursor-zoom-in aspect-video rounded-xl overflow-hidden border-2 border-brand-border hover:border-brand-green bg-zinc-100 transition-colors">
+                <img src="${src}" alt="Dokumentasi Proyek ${idx + 1}" loading="lazy" decoding="async" class="w-full h-full object-cover" />
+              </div>
+            `,
+            )
+            .join("");
+        } else {
+          galleryWrapper.classList.add("hidden");
+          galleryGrid.innerHTML = "";
+        }
+
+        document.getElementById("gen-modal-tags").innerHTML = p.tags
+          .map((t, i) => `<span class="${i % 2 === 0 ? 'bg-brand-greenSoft' : 'bg-brand-yellowSoft'} border border-brand-border text-brand-text text-[10px] font-extrabold px-2.5 py-1 rounded-full">${t}</span>`)
+          .join("");
+
+        genModalActions.innerHTML = (p.links || [])
+          .map((lnk) => {
+            const btnStyle = lnk.primary
+              ? "cartoon-btn-green"
+              : "cartoon-btn-white";
+            return `
+              <a href="${lnk.url}" target="_blank" rel="noopener noreferrer" class="${btnStyle} px-4 py-2 rounded-full text-xs font-extrabold inline-flex items-center gap-1.5">
+                <span>${lnk.label}</span>
+                <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+              </a>
+            `;
+          })
+          .join("");
+
+        genModal.classList.remove("hidden");
+        genModal.classList.add("flex");
+        document.body.style.overflow = "hidden";
+        lucide.createIcons({ root: genModalActions });
+      };
+
+      window.openCertModal = function (id) {
+        const c = certificatesData.find((x) => x.id === id);
+        if (!c) return;
+        document.getElementById("gen-modal-img").src = c.image;
+        document.getElementById("gen-modal-badge").textContent = c.issuer;
+        document.getElementById("gen-modal-title").textContent = c.title;
+        document.getElementById("gen-modal-desc").textContent = c.desc;
+        galleryWrapper.classList.add("hidden");
+        galleryGrid.innerHTML = "";
+        document.getElementById("gen-modal-tags").innerHTML = "";
+        genModalActions.innerHTML = `
+          <a href="${c.certUrl}" target="_blank" rel="noopener noreferrer" class="cartoon-btn-green px-5 py-2.5 rounded-full text-xs font-extrabold inline-flex items-center gap-1.5">
+            <span>View Certificate</span>
+            <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          </a>
+        `;
+        genModal.classList.remove("hidden");
+        genModal.classList.add("flex");
+        document.body.style.overflow = "hidden";
+        lucide.createIcons({ root: genModalActions });
+      };
+
+      window.openAwardModal = function (id) {
+        const a = awardsData.find((x) => x.id === id);
+        if (!a) return;
+        document.getElementById("gen-modal-img").src = a.image;
+        document.getElementById("gen-modal-badge").textContent = a.issuer;
+        document.getElementById("gen-modal-title").textContent = a.title;
+        document.getElementById("gen-modal-desc").textContent = a.desc;
+        galleryWrapper.classList.add("hidden");
+        galleryGrid.innerHTML = "";
+        document.getElementById("gen-modal-tags").innerHTML = "";
+        genModalActions.innerHTML = "";
+        genModal.classList.remove("hidden");
+        genModal.classList.add("flex");
+        document.body.style.overflow = "hidden";
+      };
+
+      window.closeGenModal = function () {
+        genModal.classList.add("hidden");
+        genModal.classList.remove("flex");
+        document.body.style.overflow = "";
+      };
+
+      document.getElementById("close-gen-modal").onclick = closeGenModal;
+      expModal.addEventListener("click", (e) => {
+        if (e.target === expModal) document.getElementById("close-exp-modal").click();
+      });
+      genModal.addEventListener("click", (e) => {
+        if (e.target === genModal) closeGenModal();
+      });
+
+      // Typewriter Role
+      const roles = ["Game Developer (Roblox & Unity)", "Web Developer (Full Stack)", "IT Support", "Machine Learning", "Internet Of Things", "AI Engineering", "Data Analyst", "Computer Vision"];
+      let rIdx = 0,
+        cIdx = 0,
+        deleting = false;
+      const twEl = document.getElementById("typewriter");
+
+      function runTypewriter() {
+        const word = roles[rIdx];
+        twEl.textContent = deleting ? word.substring(0, cIdx - 1) : word.substring(0, cIdx + 1);
+        cIdx = deleting ? cIdx - 1 : cIdx + 1;
+
+        let speed = deleting ? 40 : 80;
+        if (!deleting && cIdx === word.length) {
+          speed = 2000;
+          deleting = true;
+        } else if (deleting && cIdx === 0) {
+          deleting = false;
+          rIdx = (rIdx + 1) % roles.length;
+          speed = 400;
+        }
+        setTimeout(runTypewriter, speed);
+      }
+
+      window.addEventListener("DOMContentLoaded", () => {
+        lucide.createIcons();
+        renderExperiences("all");
+        renderProjects();
+        renderAchievements("certificate");
+        runTypewriter();
+      });
+    </script>
+  </body>
+</html>
